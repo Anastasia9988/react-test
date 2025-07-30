@@ -1,36 +1,48 @@
-import React, { useState } from "react";
-import MyButton from "./UI/Button/MyButton";
-import MyInput from "./UI/Input/MyInput";
+import React from "react";
+import { Form, Input, Button } from "antd";
 
-const PostForm = ({create}) => {
+const PostForm = ({ create }) => {
+    const [form] = Form.useForm();
 
-    const [post, setPost] = useState({title: '', body:''})
-
-    const addNewPost = (e) => {
-        e.preventDefault()
+    const onFinish = (values) => {
         const newPost = {
-            ...post, id: Date.now()
-        }
-        create(newPost)
-        setPost({title: '', body:''})
-      }
+            ...values,
+            id: Date.now(),
+            tags: values.tags ? values.tags.split(",").map(t => t.trim()) : [],
+            reactions: { likes: 0, dislikes: 0 }
+        };
+        create(newPost);
+        form.resetFields();
+    };
 
     return (
-        <form>
-        <MyInput
-          value={post.title}
-          onChange={e => setPost({...post, title: e.target.value})}
-          type="text" 
-          placeholder="Название поста"
-          />
-         <MyInput 
-         value={post.body}
-         onChange={e => setPost({...post, body: e.target.value})}
-         type="text" 
-         placeholder="Описание поста"
-         /> 
-         <MyButton onClick= {addNewPost}>Создать пост</MyButton>
-       </form>
+        <Form form={form} layout="vertical" onFinish={onFinish}>
+            <Form.Item
+                label="Название поста"
+                name="title"
+                rules={[{ required: true, message: "Введите название" }]}
+            >
+                <Input placeholder="Введите название" />
+            </Form.Item>
+
+            <Form.Item
+                label="Описание поста"
+                name="body"
+                rules={[{ required: true, message: "Введите описание" }]}
+            >
+                <Input.TextArea rows={3} placeholder="Введите описание" />
+            </Form.Item>
+
+            <Form.Item label="Теги (через запятую)" name="tags">
+                <Input placeholder="Например: react,redux,frontend" />
+            </Form.Item>
+
+            <Form.Item>
+                <Button type="primary" htmlType="submit" block>
+                    Создать пост
+                </Button>
+            </Form.Item>
+        </Form>
     );
 };
 

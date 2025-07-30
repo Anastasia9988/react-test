@@ -27,7 +27,7 @@ const PostList = ({posts, title, remove}) => {
                             key={post.id}
                             timeout={500}
                             classNames="post"
-                            nodeRef={nodeRef} // Передаем ref
+                            nodeRef={nodeRef}
                         >
                             <PostItem ref={nodeRef} remove={remove} number={index + 1} post={post} />
                         </CSSTransition>

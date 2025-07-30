@@ -1,52 +1,35 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
-import {useFetching} from "../hooks/useFetching";
-import PostService from "../API/PostService";
-import Loader from "../Components/UI/Loader/Loader";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchPostById } from "../store/postsSlice";
+import { Card, Spin, Tag } from "antd";
 
 const PostIdPage = () => {
-    const params = useParams();
-    const [post, setPost] = useState({});
-    const [comment, setComment] = useState([]);
-    const [fetchPostById, isLoading, error] = useFetching(async (id) => {
-        const response = await PostService.getById(id);
-        setPost(response.data);
-    })
-
-    const [fetchComments, isComLoading, comError] = useFetching(async (id) => {
-        const response = await PostService.getCommentsByPostId(id);
-        setComment(response.data);
-    })
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const { currentPost, status, error } = useSelector((state) => state.posts);
 
     useEffect(() => {
-        fetchPostById(params.id);
-        fetchComments(params.id);
-    }, []);
+        dispatch(fetchPostById(id));
+    }, [dispatch, id]);
+
+    if (status === "loading") return <Spin size="large" style={{ display: "block", margin: "50px auto" }} />;
+    if (error) return <h2 style={{ color: "red" }}>Ошибка: {error}</h2>;
+    if (!currentPost) return null;
 
     return (
-        <div>
-            <h1>Вы открыли пост c ID = {params.id}</h1>
-            {isLoading ? (
-                <Loader />
-            ) : (
-                <div>
-                    {post.id}. {post.title}
-                </div>
-            )}
-            <h1>Комментарии</h1>
-            {isComLoading ? (
-                <Loader />
-            ) : (
-                <div>
-                    {comment.map((comm, index) => (
-                        <div key={index} style={{ marginTop: "15px" }}>
-                            <h4>{comm.email}</h4>
-                            <div>{comm.body}</div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+        <Card title={currentPost.title} style={{ margin: 20 }}>
+            <p>{currentPost.body}</p>
+            <div>
+                {currentPost.tags.map((tag) => (
+                    <Tag key={tag}>{tag}</Tag>
+                ))}
+            </div>
+            <div style={{ marginTop: 10 }}>
+                ❤️ {currentPost.reactions.likes}
+                👎 {currentPost.reactions.dislikes}
+            </div>
+        </Card>
     );
 };
 

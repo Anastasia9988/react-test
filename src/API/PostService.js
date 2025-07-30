@@ -2,23 +2,15 @@ import axios from 'axios';
 
 export default class PostService {
     static async getAll(limit = 10, page = 1) {
-        console.log(page)
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-            params: {
-                _limit: limit,
-                _page: page,
-            }
+        const skip = (page - 1) * limit;
+        const response = await axios.get('https://dummyjson.com/posts', {
+            params: { limit, skip },
         });
-        return response; // Возвращаем данные при успехе
+        return response.data; // вернем сразу .data
     }
 
     static async getById(id) {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts/' + id);
-        return response; // Возвращаем данные при успехе
-    }
-
-    static async getCommentsByPostId(id) {
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`);
-        return response;
+        const response = await axios.get(`https://dummyjson.com/posts/${id}`);
+        return response.data;
     }
 }

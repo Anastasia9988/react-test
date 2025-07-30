@@ -1,19 +1,17 @@
 import React from "react";
-import cl from './MyModal.module.css'
+import { Modal } from "antd";
 
-const MyModal = ({children, visible, setVisible}) => {
-
-    const rootClasses = [cl.myModal]
-    if (visible) {
-        rootClasses.push(cl.active)
-    }
-
+const MyModal = ({ children, visible, setVisible }) => {
     return (
-       <div className={rootClasses.join(' ')} onClick={() => setVisible(false)} >
-            <div className={cl.myModalContent} onClick={(e) => e.stopPropagation()} >
-                {children}
-            </div>
-       </div>
+        <Modal
+            open={visible}
+            onCancel={() => setVisible(false)}
+            footer={null}
+            centered
+            destroyOnClose
+        >
+            {children}
+        </Modal>
     );
 };
 

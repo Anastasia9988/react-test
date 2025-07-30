@@ -1,27 +1,25 @@
 import React from "react";
-import MyInput from "./UI/Input/MyInput";
-import MySelect from "./UI/Select/MySelect";
+import { Input, Select } from "antd";
 
-const PostFilter = ({filter, setFilter}) => {
-
-
+const PostFilter = ({ filter, setFilter }) => {
     return (
-        <div>
-        <MyInput 
-          value = {filter.query}
-          onChange={e => setFilter({...filter, query: e.target.value})}
-          placeholder="Поиск..."
-        />
-        <MySelect
-        value={filter.sort}
-        onChange={selectedSort => setFilter({...filter, sort: selectedSort})}
-        defaultValue="Сортировка по"
-        options={[
-          {value: 'title', name: 'По названию'},
-          {value: 'body', name: 'По описанию'}
-        ]}
-        />
-       </div>
+        <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
+            <Input
+                value={filter.query}
+                onChange={(e) => setFilter({ ...filter, query: e.target.value.toLowerCase() })}
+                placeholder="Поиск..."
+                style={{ maxWidth: 300 }}
+            />
+            <Select
+                value={filter.sort}
+                onChange={(selectedSort) => setFilter({ ...filter, sort: selectedSort })}
+                placeholder="Сортировка по"
+                style={{ width: 200 }}
+            >
+                <Select.Option value="title">По названию</Select.Option>
+                <Select.Option value="body">По описанию</Select.Option>
+            </Select>
+        </div>
     );
 };
 

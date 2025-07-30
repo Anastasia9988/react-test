@@ -32,7 +32,7 @@
 
 ```bash
 git clone https://github.com/Anastasia9988/react-test.git
-cd first-app
+cd react-test
 npm install
 npm start
 ```

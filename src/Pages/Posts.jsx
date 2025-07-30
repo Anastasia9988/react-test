@@ -30,7 +30,9 @@ const Posts = () => {
 
     return (
         <div style={{ padding: 20 }}>
-            <PostFilter filter={filter} setFilter={setFilter} />
+            <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 20 }}>
+                <PostFilter filter={filter} setFilter={setFilter} />
+            </div>
 
             <div className="posts-container">
                 {sortedAndSearchPosts.length ? (
@@ -38,7 +40,10 @@ const Posts = () => {
                         <Card
                             key={post.id}
                             title={post.title}
-                            style={{ marginBottom: 20 }}
+                            style={{
+                                width: "100%",
+                                minWidth: 300,
+                            }}
                             extra={
                                 <>
                                     <Button
@@ -75,10 +80,13 @@ const Posts = () => {
                         </Card>
                     ))
                 ) : (
-                    <h2 style={{ textAlign: "center", marginTop: "50px" }}>Посты не найдены</h2>
+                    <h2 style={{ gridColumn: "1 / -1", textAlign: "center", marginTop: "50px" }}>
+                        Посты не найдены
+                    </h2>
                 )}
             </div>
 
+            {/* элемент для observer */}
             <div ref={lastElement} style={{ height: 20 }} />
 
             {isLoading && <Spin style={{ display: "block", margin: "20px auto" }} />}

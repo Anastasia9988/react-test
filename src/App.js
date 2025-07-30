@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import Navbar from "./Components/UI/Navbar/Navbar";
 import AppRouter from "./Components/AppRouter";
 import {AuthContext} from "./Context";
-import RegisterForm from "./Components/react-hook-form";
 
 
 
@@ -26,7 +25,6 @@ function App() {
      }}>
          <BrowserRouter>
              <Navbar/>
-             <RegisterForm/>
              <AppRouter/>
          </BrowserRouter>
      </AuthContext.Provider>

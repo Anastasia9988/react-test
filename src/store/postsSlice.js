@@ -4,19 +4,13 @@ import PostService from "../API/PostService";
 // Получение постов
 export const fetchPosts = createAsyncThunk(
     "posts/fetchPosts",
-    async ({ limit, page }) => {
-        const data = await PostService.getAll(limit, page);
-        return data; // { posts, total, skip, limit }
-    }
+    async ({ limit, page }) => await PostService.getAll(limit, page)
 );
 
 // Получение поста по ID (для PostIdPage)
 export const fetchPostById = createAsyncThunk(
     "posts/fetchPostById",
-    async (id) => {
-        const data = await PostService.getById(id);
-        return data; // {id, title, body, tags, reactions}
-    }
+    async (id) => await PostService.getById(id)
 );
 
 const postsSlice = createSlice({
@@ -46,11 +40,9 @@ const postsSlice = createSlice({
             .addCase(fetchPosts.fulfilled, (state, action) => {
                 state.status = "succeeded";
 
-                // Если страница первая — заменяем посты
                 if (state.page === 1) {
                     state.items = action.payload.posts;
                 } else {
-                    // Если дальше — добавляем посты без дублей
                     const newPosts = action.payload.posts.filter(
                         (p) => !state.items.some((sp) => sp.id === p.id)
                     );

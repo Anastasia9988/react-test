@@ -14,7 +14,7 @@ const {setIsAuth} = useContext(AuthContext);
     return (
         <div>
             <h1>Страница для логина</h1>
-            <form onSubmit={login}>
+            <form className='login__form' onSubmit={login}>
                 <MyInput type="text" placeholder="Введите логин"/>
                 <MyInput type="password" placeholder="Введите пароль"/>
                 <MyButton>Войти</MyButton>

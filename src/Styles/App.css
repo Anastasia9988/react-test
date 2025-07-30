@@ -12,7 +12,6 @@
 #root{
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .post{
@@ -42,7 +41,6 @@
 .page__wrapper {
   display: flex;
   margin-top: 30px;
-  display: flex;
   align-items: center;
 }
 
@@ -78,4 +76,14 @@
 
 .post__btns {
     display: flex;
+}
+
+.navbar__links__item{
+    margin: 10px;
+}
+
+.login__form{
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
 }
